@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var z="hema";
+        var telugu=parseInt(prompt());
+        var english=parseInt(prompt());
+        var math=parseInt(prompt());
+        var social=parseInt(prompt());
+        var sum=add(telugu,english,math,social);
+        var avg=sum/4;
+        console.log(z);
+        var g=grade(avg);
+        function add(t,e,m,s)
+        {
+          var c =telugu+english+math+social;
+            return c
+        }
+        function grade(g)
+        {
+            switch(true)
+            {
+                case g>90:console.log("grade A");
+                break;
+                case g>70:console.log("grade B");
+                break;
+                case g>50:console.log("grade C");
+                break;
+                case g>30:console.log("grade D");
+                break;
+                default:console.log("nex level");
+                break;
+            }
+        }
+
+    </script>
+</body>
+</html>
