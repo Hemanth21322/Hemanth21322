@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+        function validate() {    
+            var fname = document.reg_form.fname;    
+            var lname = document.reg_form.lname;    
+            var address = document.reg_form.address;    
+            var gender = document.reg_form.gender;    
+            var email = document.reg_form.email;    
+            var mobile = document.reg_form.mobile;    
+            var course = document.reg_form.course; 
+            var status=false;   
+    
+            if (fname.value.length <= 0) {    
+                document.getElementById("name1").innerHTML="Plz Enter The First text";  
+        
+                fname.focus();    
+                status=false;    
+            }    
+            if (lname.value.length <= 0) {    
+                document.getElementById("name2").innerHTML="Plz Enter The Lastst text";
+                     
+                lname.focus();    
+                status=false;    
+            }    
+            if (address.value.length <= 0) {    
+                document.getElementById("name3").innerHTML="plz fiil the address";   
+                address.focus();    
+                 status= false; 
+            }    
+            if (gender.value.length <= 0) {    
+                document.getElementById("name4").innerHTML="plz Enter only 10 Members";   
+                gender.focus();    
+                status=false;    
+            }    
+            if (email.value.length <= 0) {    
+                document.getElementById("name5").innerHTML="plz Enter only 10 Members";   
+                email.focus();    
+                status=false;    
+            }    
+            if (mobile.value.length <= 0) {    
+                document.getElementById("name6").innerHTML="Plz Enter only 10 Members";    
+                mobile.focus();    
+                status =false;    
+            }    
+            if (course.value == "select course") {    
+                document.getElementById("name7").innerHTML="plz Enter only 10 Members";    
+                course.focus();    
+                status= false;    
+            }    
+            return false;    
+        }    
+    </script>    
+</head>    
+<body>    
+    <center><h1>Form Validation using HTML,CSS,JavaScript</h1></center>    
+    <hr>    
+    <form method="" action="" name="reg_form" onsubmit="return validate()">    
+        <h2>Registration Form</h2>    
+        <table>    
+            <tr>    
+                <td><label>First Name: </label></td>    
+                <td>    
+                    <input type="text" placeholder="First Name" id="fname"> 
+                    <span id="name1"></span>
+                </td>    
+            </tr>    
+            <tr>    
+                <td><label>Last Name: </label></td>    
+                <td>    
+                    <input type="text" id="lname" placeholder="Last Name"> 
+                    <span id="name2"></span>   
+                </td>    
+            </tr>    
+            <tr>    
+                <td><label>Address: </label></td>    
+                <td>    
+                    <input type="textarea" size="50" id="address" placeholder="Address">   
+                    <span id="name3"> </span>    
+                </td>    
+            </tr>    
+            <tr>    
+                <td><label>Gender: </label></td>    
+                <td>    
+                    <input type="radio" name="gender" value="male" id="gender">Male    
+                    <input type="radio" name="gender" value="femele" id="gender">Female 
+                    <span id="name4"> </span> 
+                </td>    
+            </tr>    
+            <tr>    
+                <td><label>Email Id: </label></td>    
+                <td>    
+                    <input type="text" name="email" placeholder="example@gmail.com"> 
+                    <span id="name5"></span>    
+                </td>    
+            </tr>    
+            <tr>    
+                <td><label>Mobile: </label></td>    
+                <td>    
+                    <input type="number" name="mobile" id="mobile"> 
+                    <span id="name6"></span>   
+                </td>    
+            </tr>    
+            <tr>    
+            <td><label>Course: </label></td>    
+                <td>    
+                    <select name="course">    
+                        <option value="select course">select course</option>    
+                        <option value="HTML">HTML</option>    
+                        <option value="CSS">CSS</option>    
+                        <option value="JavaScript">JAVASCRIPT</option>    
+                        <option value="Java">JAVA</option>    
+                    </select>
+                    <span id="name7"></span>    
+                </td>    
+            </tr>    
+            <tr>    
+                <td>    
+                    <input type="submit"  value="Submit">    
+                    <input type="reset" name="reset" value="Reset">    
+                </td>    
+            </tr>             
+        </table>    
+    </form>    
+</body>
+</html>
