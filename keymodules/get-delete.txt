@@ -1,0 +1,77 @@
+
+----------------------------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\models\mainModel.js-------------------------------------->>>
+                                       // ...................................... Garbagefinds.get1.----delete.......................
+        
+            exports.peoplemdl = function (id, callback) {
+                var cntxtDtls = "in peoplemdl";
+                // var date = moment().utcOffset("+05:30").format('YYYY-MM-DD HH:mm:ss');
+                var QRY_TO_EXEC = `UPDATE person SET d_in = 1 WHERE id ='${id}'; `
+                  console.log(QRY_TO_EXEC);
+                if (callback && typeof callback == "function") {
+                    dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls, function (err, results) {
+                        callback(err, results);
+                        return;
+                    });
+                }
+                else
+                    return dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls);
+            };
+
+-----------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\controllers\mainCtrl.js-------------------------------------------------------------------------------->>>>>
+  // ..................................................... Garbagefinds.get3----delete........................
+exports.peopleCtrl = function (req, res) {
+    var id = req.params.id;
+  
+    appmdl.peoplemdl(id,function (err, results) {
+        if (err) {
+
+            res.send({ 'status': 500, 'data': results });
+            return;
+        }
+        res.send({ "status": 200, "data": results });
+    });
+}
+--------------------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\routes\routes.js---------------------------------------------------------------------------------------->>
+// ...................................... Garbagefinds.get3----delete........................
+       router.get('/people/:id',  sampleRoutes.peopleCtrl);
+----------------------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\routes\routes.js------------------------------------------------------------------------------------->>>
+                             // ...................................... Garbagefinds.get3.//  DELETE................................................................................
+          
+  deletedataapi(data){
+    return this.http.get<any>(TappasApi + `people/` + data)
+  }
+
+-------------------------------------------------------------F:\RMC\rmc\rmc\src\app\dashboard\tappal\tappalservice.service.ts---------------------------------------------------------------------       
+  deletedataapi(data){
+    return this.http.get<any>(TappasApi + `people/` + data)
+  }
+---------------------------------------------------------------F:\RMC\rmc\rmc\src\app\dashboard\tappal\feedback\feedback.component.ts----------------------------------------------------------------
+// ............................................................ Garbagefinds.get3.. delete.........................
+    
+  deletedata(id : any){
+    this.tappalservice.deletedataapi(id).subscribe((res: any)=>{
+      this.peopleChallan();----------------------------------------------------------------->
+      console.log(res);                                                                     |
+      var x = [];                                                                           |   
+      x.push(res)          
+  if(id=x[0].status == 200){                                                                |
+    alert("successfully deleted")
+    // this.getdailyreports();                                                              |
+  }
+      })                                                                                    |
+  }
+     // ...................................... Garbagefinds.get1........................    |
+  peopleChallan() {   <-----------------------------------------------------------------------
+    console.log('tested');
+    this.tappalservice.feedbacksubmit().subscribe((Result : any) => {                        
+      console.log(Result,"results");
+      if (Result.status == 200) {
+        // this.getarray = Result.data;
+        this.getarray = new MatTableDataSource(Result.data);                                 
+          this.getarray.paginator = this.paginator;
+          this.getarray.sort = this.sort;
+        console.log(Result.data);
+        
+      }
+    })
+  }

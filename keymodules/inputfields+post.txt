@@ -1,0 +1,102 @@
+
+
+ <!-- ........................INPUTFIELDS--using --[FormGroup]--ngSubmit.................. -->
+   .
+
+<form [formGroup]="submitForm" (ngSubmit)="submitFormData()">
+  <div class="container row">
+    <div class="mb-3 col-4">
+      <label for="exampleInputFname" class="form-label"> Name</label>
+      <input type="text" class="form-control " formControlName="name">
+    </div>
+    <!-- phonenumber -->
+    <div class="mb-3 col-4">
+      <label for="phone"> phonenumber:</label>
+      <input type="number" id="phone" class="form-control " formControlName="phone" name="phone">
+    </div>
+  </div>
+  <div class="container row">
+    <div class="mb-3 col-4">
+      <label for="exampleInputFname" class="form-label">Desgination</label>
+      <input type="text" class="form-control " formControlName="desg">
+    </div>
+    <div class="mb-3 col-4">
+      <label for="exampleInputFname" class="form-label"> Salary</label>
+      <input type="text" class="form-control " formControlName="salary">
+      </div>
+    
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary ">Submit</button>
+  </div>
+</form>
+
+
+................................................F:\RMC\rmc\rmc\src\app\dashboard\tappal\feedback\feedback.component.ts........................................>
+ submitForm:FormGroup;
+              // ...................................... Garbagefinds.submation..post........................
+    submitFormData(){
+      console.log(this.submitForm.value);
+      this.tappalservice.feedbacksubmitdata(this.submitForm.value).subscribe((res:any)=>{
+        this.peopleChallan();
+        console.log(res)
+       this.submitForm.reset();
+  
+      })
+    }
+
+
+
+
+---------------------------------------------------F:\RMC\rmc\rmc\src\app\dashboard\tappal\tappalservice.service.ts------------------------------------------------->
+ 
+                  // ...................................... Garbagefinds.post1........................
+  feedbacksubmitdata(data){
+    return this.http.post<any>(TappasApi + `peoplechall`,data)
+  }
+
+------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\routes\routes.js--------------------------------------------------------------------->>
+
+router.post('/peoplechall',  sampleRoutes.peoplechallCtrl);
+
+
+------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\controllers\mainCtrl.js--------------------------------------------------------------------->
+
+
+                        // ...................................... Garbagefinds.post1........................
+exports.peoplechallCtrl = function (req, res) {
+    var feedbackdata=req.body;
+    appmdl.peoplechallMdl(feedbackdata, function (err, results) {
+        if (err) {
+            res.send(500, "Server Error");
+            return;
+        }
+        res.send({ 'status': 200, 'data': results });
+    });
+
+                 //    delete........................
+  
+}
+
+
+----------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\models\mainModel.js------------------------------------------------------------------------------------------->
+
+             // ...................................... Garbagefinds.post1---INSERT INTO.......................
+exports.peoplechallMdl = function (feedbackdata,callback) {
+    console.log(feedbackdata)
+    var date = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss");
+    var cntxtDtls = "in peoplechallMdl";
+    var QRY_TO_EXEC = `INSERT INTO person(name, phonenumber,desigation,salary) VALUES('${feedbackdata.name}','${feedbackdata.phone}','${feedbackdata.desg}','${feedbackdata.salary}')`;
+      
+        // `SELECT * FROM rrequest_service  where d_in='0';`;
+    console.log(QRY_TO_EXEC);
+    if (callback && typeof callback == "function") {
+        dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls, function (err, results) {
+            callback(err, results);
+            return;
+        });
+    }
+    else
+        return dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls);
+};

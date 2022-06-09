@@ -1,0 +1,67 @@
+
+
+------------------------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\models\mainModel.js------------------------------------------------->>
+
+var sqldb = require('../config/dbconnect');
+var dbutil = require(appRoot + '/utils/dbutils');
+var moment = require('moment');
+
+
+                                 // ...................................... Garbagefinds.get1........................
+exports.getpeopleMdl = function (callback) {
+    var date = moment().utcOffset("+05:30").format("YYYY-MM-DD HH:mm:ss");
+    var cntxtDtls = "in getpeopleMdl";
+    var QRY_TO_EXEC = `SELECT * FROM person where d_in = 0 ;`;
+    console.log(QRY_TO_EXEC);
+    if (callback && typeof callback == "function") {
+        dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls, function (err, results) {
+            callback(err, results);
+            return;
+        });
+    }
+    else
+        return dbutil.execQuery(sqldb.MySQLConPool, QRY_TO_EXEC, cntxtDtls);
+};
+-----------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\controllers\mainCtrl.js-----------------------------------------
+
+                   // ...................................... Garbagefinds.get1........................
+    exports.getpeopleCntrl = function (req, res) {
+        appmdl.getpeopleMdl( function (err, results) {
+            if (err) {
+                res.send(500, "Server Error");
+                return;
+            }
+            res.send({ 'status': 200, 'data': results });
+        });
+    }
+--------------------------------------------------F:\RMC\RMC@Api\RMC@Api\Api\routes\routes.js--------------------------------------------->>>
+              // ...................................... Garbagefinds.get2........................
+                router.get('/getpeople',  sampleRoutes.getpeopleCntrl);
+  
+---------------------------------------------------F:\RMC\rmc\rmc\src\app\dashboard\tappal\tappalservice.service.ts----------------------   // 
+
+                       ...................................... Garbagefinds.get2........................
+  feedbacksubmit(){
+    console.log('getting');
+    return this.http.get<any>(TappasApi + `getpeople`)
+  }
+---------------------------------------------------------------F:\RMC\rmc\rmc\src\app\dashboard\tappal\feedback\feedback.component.ts---------------------------------------
+                           // ...................................... Garbagefinds.get1........................
+constructor(private router: Router, private tappalservice: TappalserviceService,){}
+  ngOnInit(): void {     
+    this.peopleChallan();
+  }
+  peopleChallan() {
+    console.log('tested');
+    this.tappalservice.feedbacksubmit().subscribe((Result : any) => {
+      console.log(Result,"results");
+      if (Result.status == 200) {
+        // this.getarray = Result.data;
+        this.getarray = new MatTableDataSource(Result.data);
+          this.getarray.paginator = this.paginator;
+          this.getarray.sort = this.sort;
+        console.log(Result.data);
+        
+      }
+    })
+  }
